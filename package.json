@@ -30,7 +30,8 @@
     "gulp-coffeelint": "^0.4.0",
     "gulp-cson": "^0.2.1",
     "gulp-util": "^3.0.4",
-    "gulp-watch": "^4.1.1"
+    "gulp-watch": "^4.1.1",
+    "crx": "^3.0.2"
   },
   "dependencies": {
     "run-sequence": "^1.0.2"

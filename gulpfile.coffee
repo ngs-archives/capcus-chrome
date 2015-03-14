@@ -5,7 +5,8 @@ mocha      = require 'gulp-mocha'
 watch      = require 'gulp-watch'
 coffeelint = require 'gulp-coffeelint'
 cson       = require 'gulp-cson'
-watching   = no
+fs         = require 'fs'
+ChromeExtension = require 'crx'
 
 require 'coffee-script/register'
 
@@ -36,6 +37,25 @@ gulp.task 'watch', ->
   gulp.watch 'src/**/*.png', ->
     gulp.run 'copy'
 
-gulp.task 'build', ['coffee', 'cson', 'copy']
+getManifest = ->
+  JSON.parse fs.readFileSync 'build/manifest.json'
+
+gulp.task 'crx', ->
+  {version} = getManifest()
+  basename = "release/capcus-#{version}"
+  crx = new ChromeExtension {
+    rootDirectory: 'build'
+    privateKey: fs.readFileSync 'key.pem'
+  }
+  crx.load()
+    .then ->
+      crx.loadContents()
+    .then (next) ->
+      fs.writeFile basename + '.zip', next
+      crx.pack next
+    .then (next) ->
+      fs.writeFile basename + '.crx', next
+
+gulp.task 'build', ['coffee', 'cson', 'copy', 'crx']
 
 gulp.task 'default', ['build']

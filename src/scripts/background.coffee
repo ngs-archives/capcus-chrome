@@ -1,6 +1,7 @@
 'use strict'
 
-CAPCUS_URL = 'http://127.0.0.1:3000/capcus'
+# CAPCUS_URL = 'http://127.0.0.1:3000/capcus'
+CAPCUS_URL = 'https://capcus.herokuapp.com/capcus'
 
 userId = null
 
